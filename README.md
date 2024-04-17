@@ -2,8 +2,9 @@
 A software pipeline that takes as input a multi-fasta file containing any type of nucleotide sequences, extracts open reading frames (ORFs) from the nucleotide sequences, translates the ORFs to peptides, and through multiple filtering steps derives candidate anti-microbial peptides. NOTE: A single bacterial genome can be processed in less than five minutes but larger sequence sets can lead to memory and processor capacities being exceeded.
 
 # INSTALLATION
-`cd setup`  
-`conda env create -f requirements.yaml`  
+`conda install conda-forge::mamba`
+`cd setup`
+`mamba env create -f requirements.yaml`  
 `conda activate candidates`
 
 # USAGE
