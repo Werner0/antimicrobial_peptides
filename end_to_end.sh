@@ -228,7 +228,7 @@ bash "$pdb_curl" "$batches_combined" >> log.txt 2>&1
 find $results_directory/pdbs/ -type f -size -100c -print -delete | wc -l | xargs echo "[INFO] Number of PDBs lost due to connection issues:"
 
 #DSSP conversion
-for f in $results_directory/pdbs/*.pdb; do dssp "$f" "${f%.pdb}.dssp"; done
+for f in $results_directory/pdbs/*.pdb; do mkdssp "$f" "${f%.pdb}.dssp"; done
 python "$dssp_script" "$results_directory/pdbs/" "$results_directory/secondary_structure_analysis.csv"
 python "$assoc_script" "$APD_dssp" "$candidate_dssp" "$dssp_output"
 grep -o 'seq_A[0-9]\{8\}B_batch_[0-9]\+' "$dssp_output" > "$pipeline_temp" || touch "$pipeline_temp"
