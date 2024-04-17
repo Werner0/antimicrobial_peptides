@@ -10,7 +10,17 @@ A software pipeline that takes as input a multi-fasta file containing any type o
 `bash end_to_end.sh [nucleotides.fasta]`
 
 # OUTPUT
-+ Summary of FASTA batches and intermediary files: ./report_input_filename  
++ Summary of FASTA batches and intermediary files: ./report_input_filename
+  +  Batch 1: `GGG[^G]{1,}GGG` motif
+  +  Batch 2: Low complexity candidates
+  +  Batch 3: `HXXHHXXHHX` motif (after binary hydrophobicity conversion)
+  +  Batch 4: High diversity candidates
+  +  Batch 5: `[AGV][AG][EKR].*[ACK][ILV].*[GK].C` motif
+  +  Batch 6: `YCN` motif
+  +  Batch 7: `[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]..*` motif
+  +  Batch 8: Tertiary peptide structure homologs
+  +  Batch 9: Secondary peptide structure homologs
+  +  Batch 10: Binary logistic regression candidates
 + Secondary structure analysis: ./output/secondary_structure_analysis.csv  
 + Tertiary structure analysis: ./output/tertiary_structure_analysis.txt  
 + Priority AMP candidates (empty file if none were detected): ./output/final.fasta
