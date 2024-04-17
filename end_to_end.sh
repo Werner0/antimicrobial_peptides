@@ -173,7 +173,7 @@ log_message "Removed sequences with tripeptides not present in the reference"
 # Calculate physicochemical properties
 headers_in_tripeptides=$(cat $tripeptide_peptides | grep "^>" | wc -l)
 log_message "Calculating physicochemical properties for $headers_in_tripeptides peptides"
-Rscript "$physicochemical_script" "$tripeptide_peptides" "$APD_properties" "$pipeline_temp"
+Rscript "$physicochemical_script" "$tripeptide_peptides" "$APD_properties" "$pipeline_temp" >> log.txt 2>&1
 seqkit grep -f "$pipeline_temp" "$tripeptide_peptides" -o "$physicochemical_peptides" >> log.txt 2>&1
 rm "$pipeline_temp"
 log_message "Removed sequences that do not fall within the desired physicochemical range"
@@ -248,8 +248,8 @@ rm "$pipeline_temp"
 log_message "Tertiary structure analysis completed [Homology parameters: Length 10, Identity 0.5]"
 
 # Logistic regression with XGboost
-Rscript "$moreau_script" --file "$batches_combined" --label "candidates" --output "$moreau_results"
-Rscript "$predict_script" "$xgb_boost_model" "$moreau_results" "$predictions"
+Rscript "$moreau_script" --file "$batches_combined" --label "candidates" --output "$moreau_results" >> log.txt 2>&1
+Rscript "$predict_script" "$xgb_boost_model" "$moreau_results" "$predictions" >> log.txt 2>&1
 awk -F, '$3 == "AMP" {print $1}' "$predictions" > "$pipeline_temp"
 seqkit grep -f "$pipeline_temp" "$batches_combined" -o "$batches_combined_xgboost" >> log.txt 2>&1
 modify_fasta_headers "_and_batch_10" "$batches_combined_xgboost"
