@@ -1,0 +1,27 @@
+name: candidates
+channels:
+  - bioconda
+  - conda-forge
+  - salilab
+  - defaults
+dependencies:
+  - python
+  - bash  
+  - r-base
+  - r-xgboost
+  - r-data.table
+  - r-peptides
+  - r-protr
+  - r-dplyr  
+  - seqkit
+  - emboss
+  - foldseek
+  - mafft
+  - trimal
+  - curl
+  - dssp
+  - pip
+  - pip:
+    - mlxtend
+    - pandas
+    - biopython
