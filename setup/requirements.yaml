@@ -4,20 +4,22 @@ channels:
   - conda-forge
   - salilab
   - defaults
+  - pkgs/main
 dependencies:
   - python
-  - bash  
+  - bash
   - r-base
   - r-xgboost
   - r-data.table
   - r-peptides
   - r-protr
-  - r-dplyr  
+  - r-dplyr
   - seqkit
   - emboss
   - foldseek
   - curl
   - dssp
+  - libboost=1.73.0=h28710b8_12
   - pip
   - pip:
     - mlxtend
