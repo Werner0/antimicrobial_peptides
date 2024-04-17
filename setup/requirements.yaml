@@ -16,8 +16,6 @@ dependencies:
   - seqkit
   - emboss
   - foldseek
-  - mafft
-  - trimal
   - curl
   - dssp
   - pip
