@@ -22,5 +22,5 @@ dependencies:
   - biopython
   - dssp
   - libboost=1.73.0=h28710b8_12 # dssp dependency
-  - libtiff # EMBOSS getORF dependency on Debian
+  - anaconda::libtiff # EMBOSS getORF dependency on Debian
   - mlxtend
