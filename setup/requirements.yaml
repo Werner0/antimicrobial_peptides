@@ -1,10 +1,8 @@
-name: candidates
 channels:
   - bioconda
   - conda-forge
   - salilab
   - defaults
-  - pkgs/main
 dependencies:
   - python
   - bash
@@ -19,10 +17,9 @@ dependencies:
   - emboss
   - foldseek
   - curl
+  - pandas
+  - biopython
   - dssp
-  - libboost=1.73.0=h28710b8_12
-  - pip
-  - pip:
-    - mlxtend
-    - pandas
-    - biopython
+  - libboost=1.73.0=h28710b8_12 # dssp dependency
+  - libtiff # EMBOSS getORF dependency on Debian
+  - mlxtend
