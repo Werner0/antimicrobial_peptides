@@ -1,3 +1,4 @@
+name: candidates
 channels:
   - bioconda
   - conda-forge
