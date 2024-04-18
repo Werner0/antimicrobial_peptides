@@ -1,5 +1,5 @@
 # DESCRIPTION
-A software pipeline that takes as input a multi-fasta file containing any type of nucleotide sequences, extracts open reading frames (ORFs) from the nucleotide sequences, translates the ORFs to peptides, and through multiple filtering steps derives candidate anti-microbial peptides. NOTE: A single bacterial genome can be processed in less than five minutes but larger sequence sets can lead to memory and processor capacities being exceeded.
+A software pipeline that takes as input a multi-fasta file containing any type of nucleotide sequences, extracts open reading frames (ORFs) from the nucleotide sequences, translates the ORFs to peptides, and through multiple filtering steps derives candidate antimicrobial peptides. NOTE: A single bacterial genome can be processed in less than five minutes but larger sequence sets can lead to memory and processor capacities being exceeded.
 
 # INSTALLATION
 The mamba package manager is needed to resolve installation of `libboost=1.73.0=h28710b8_12` for `dssp`:  
@@ -13,7 +13,7 @@ Then set up the conda environment as follow:
 + `bash configure_pfilt.sh`  
 
 # USAGE
-`bash end_to_end.sh [nucleotides.fasta|.fna]`
++ `bash end_to_end.sh [nucleotides.fasta|.fna]`
 
 # OUTPUT
 + Summary of FASTA batches and intermediary files: ./report_input_filename
@@ -32,4 +32,5 @@ Then set up the conda environment as follow:
 + Priority AMP candidates (empty file if none were detected): ./output/final.fasta
 
 # LOGGING
-Log written to ./log.txt
++ Log written to ./log.txt  
++ For more verbose logging, uncomment `#set -x` on line 3 in ./end_to_end.sh  
