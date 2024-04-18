@@ -33,4 +33,7 @@ Then set up the conda environment as follow:
 
 # LOGGING
 + Log written to ./log.txt  
-+ For more verbose logging, uncomment `#set -x` on line 3 in ./end_to_end.sh  
++ For more verbose logging, uncomment `#set -x` on line 3 in ./end_to_end.sh
+
+# DEMO
+![Alt Text](source_files/demo.gif)
