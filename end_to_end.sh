@@ -55,12 +55,12 @@ else
         exit 1
     fi
     # Check for valid nucleotide sequences (including wildcards)
-    if grep -v "^>" "$genome" | grep -qE "[^ACGTURYKMSWBDHVN]"; then
+    if grep -v "^>" "$genome" | grep -qiE "[^ACGTURYKMSWBDHVN]"; then
         echo "[ERROR] $genome contains invalid nucleotide sequences."
         exit 1
     fi
     # Check that there is at least one sequence line following a header line
-    if ! awk '/^>/ {header=1; next} /^[ACGTURYKMSWBDHVN]+$/ {if(header) {seq=1; header=0}} END {exit !(seq)}' "$genome"; then
+    if ! awk 'BEGIN{IGNORECASE=1} /^>/ {header=1; next} /^[ACGTURYKMSWBDHVN]+$/ {if(header) {seq=1; header=0}} END {exit !(seq)}' "$genome"; then
         echo "[ERROR] $genome does not contain any sequences following the headers."
         exit 1
     fi
@@ -167,7 +167,7 @@ check_files_exist() {
 # Extract open reading frames (ORFs)
 getorf -find "$search_type" -table "$codon_table" -minsize "$min_orf_length" -maxsize "$max_orf_length" -sequence "$genome" -outseq "$nucleotides" >> log.txt 2>&1
 if [ ! -s "$nucleotides" ]; then
-    echo "[INFO] No ORFs found."
+    echo "[INFO] Exiting. No ORFs found."
     exit 1
 else
     log_message "Extracted open reading frames ranging from $min_orf_length to $max_orf_length basepairs."
@@ -202,6 +202,10 @@ log_message "Removed sequences with tripeptides not present in the APD reference
 
 # Calculate physicochemical properties
 headers_in_tripeptides=$(cat $tripeptide_peptides | grep "^>" | wc -l)
+if [ "$headers_in_tripeptides" -eq 0 ]; then
+    echo "[INFO] Exiting. Not enough peptides to carry out physicochemical analysis"
+    exit 1
+fi
 log_message "Calculating physicochemical properties for $headers_in_tripeptides peptides."
 Rscript "$physicochemical_script" "$tripeptide_peptides" "$APD_properties" "$pipeline_temp" >> log.txt 2>&1
 seqkit grep -f "$pipeline_temp" "$tripeptide_peptides" -o "$physicochemical_peptides" >> log.txt 2>&1
