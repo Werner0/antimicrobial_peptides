@@ -19,7 +19,7 @@ Then set up the conda environment as follow:
 
 # USAGE
 + `bash end_to_end.sh [nucleotides.fasta|.fna]`
-+ Example genomes are available in: `./antimicrobial_peptides/source_files/genomes/`
++ Example genomes are available in: `./source_files/genomes/`
 
 # OUTPUT
 + Summary of FASTA batches and intermediary files: ./report_input_filename
