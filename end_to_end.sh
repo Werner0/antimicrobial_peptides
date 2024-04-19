@@ -170,7 +170,7 @@ if [ ! -s "$nucleotides" ]; then
     echo "[INFO] No ORFs found."
     exit 1
 else
-    log_message "Extracted open reading frames ranging from $min_orf_length to $max_orf_length basepairs"
+    log_message "Extracted open reading frames ranging from $min_orf_length to $max_orf_length basepairs."
     # Translate nucleotide sequences to peptides
     transeq -table "$codon_table" -sequence "$nucleotides" -outseq "$peptides" >> log.txt 2>&1
     log_message "Translated nucleotide sequences using codon table $codon_table."
@@ -202,7 +202,7 @@ log_message "Removed sequences with tripeptides not present in the APD reference
 
 # Calculate physicochemical properties
 headers_in_tripeptides=$(cat $tripeptide_peptides | grep "^>" | wc -l)
-log_message "Calculating physicochemical properties for $headers_in_tripeptides peptides"
+log_message "Calculating physicochemical properties for $headers_in_tripeptides peptides."
 Rscript "$physicochemical_script" "$tripeptide_peptides" "$APD_properties" "$pipeline_temp" >> log.txt 2>&1
 seqkit grep -f "$pipeline_temp" "$tripeptide_peptides" -o "$physicochemical_peptides" >> log.txt 2>&1
 rm "$pipeline_temp"
