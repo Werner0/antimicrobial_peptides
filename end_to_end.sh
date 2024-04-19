@@ -34,6 +34,39 @@ check_tool Rscript
 check_tool python
 check_tool pfilt
 
+# Check if a genome file is provided as an input
+if [ -z "$1" ]; then
+    echo "[INFO] No nucleotide sequences provided. Using example nucleotides from $genome"
+else
+    genome="$1"
+    # Check if the file exists and is readable
+    if [ ! -f "$genome" ] || [ ! -r "$genome" ]; then
+        echo "[ERROR] File doesn't exist or read permissions are required."
+        exit 1
+    fi
+    # Check if the file has a .fasta or .fna extension
+    if [[ ! "$genome" =~ \.(fasta|fna)$ ]]; then
+        echo "[ERROR] Only .fasta and .fna files are acceptable as input."
+        exit 1
+    fi
+    # Check if the file conforms to the FASTA format
+    if ! grep -q "^>" "$genome"; then
+        echo "[ERROR] $genome does not have headers starting with '>'."
+        exit 1
+    fi
+    # Check for valid nucleotide sequences (including wildcards)
+    if grep -v "^>" "$genome" | grep -qE "[^ACGTURYKMSWBDHVN]"; then
+        echo "[ERROR] $genome contains invalid nucleotide sequences."
+        exit 1
+    fi
+    # Check that there is at least one sequence line following a header line
+    if ! awk '/^>/ {header=1; next} /^[ACGTURYKMSWBDHVN]+$/ {if(header) {seq=1; header=0}} END {exit !(seq)}' "$genome"; then
+        echo "[ERROR] $genome does not contain any sequences following the headers."
+        exit 1
+    fi
+    echo "[INFO] File $genome passed basic FASTA format checks."
+fi
+
 # Check if the directory already exists
 if [ -d "$results_directory" ]; then
     # Warn if directory exists
@@ -43,7 +76,7 @@ if [ -d "$results_directory" ]; then
 
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         # User chose to continue
-        echo "[INFO] Overwriting previous results"
+        echo "[INFO] Overwriting previous results."
 	find "$results_directory" -type f -exec rm {} \;
 	rm -f log.txt
 	mkdir -p "$results_directory/pdbs"
@@ -54,14 +87,6 @@ if [ -d "$results_directory" ]; then
 else
     # Directory does not exist
     mkdir -p "$results_directory/pdbs"
-fi
-
-# Check if a genome file is provided as an input
-if [ -z "$1" ]; then
-	    echo "[INFO] No nucleotide sequences provided. Using example nucleotides from $genome"
-	else
-	    genome="$1"
-	    echo "[INFO] Nucleotides provided: $genome"
 fi
 
 # Function to log messages with timestamps
@@ -141,34 +166,39 @@ check_files_exist() {
 
 # Extract open reading frames (ORFs)
 getorf -find "$search_type" -table "$codon_table" -minsize "$min_orf_length" -maxsize "$max_orf_length" -sequence "$genome" -outseq "$nucleotides" >> log.txt 2>&1
-log_message "Extracted open reading frames ranging from $min_orf_length to $max_orf_length basepairs"
-# Translate nucleotide sequences to peptides
-transeq -table "$codon_table" -sequence "$nucleotides" -outseq "$peptides" >> log.txt 2>&1
-log_message "Translated nucleotide sequences using codon table $codon_table"
+if [ ! -s "$nucleotides" ]; then
+    echo "[INFO] No ORFs found."
+    exit 1
+else
+    log_message "Extracted open reading frames ranging from $min_orf_length to $max_orf_length basepairs"
+    # Translate nucleotide sequences to peptides
+    transeq -table "$codon_table" -sequence "$nucleotides" -outseq "$peptides" >> log.txt 2>&1
+    log_message "Translated nucleotide sequences using codon table $codon_table."
+fi
 
 # Rename peptide fasta headers
 awk '/^>/{printf(">seq_A%08dB\n", ++i); next} {print}' "$peptides" > "$renamed_peptides"
-log_message "Renamed peptide fasta headers"
+log_message "Renamed peptide fasta headers."
 
 # Deduplicate peptide sequences
 seqkit rmdup -s -i "$renamed_peptides" -o "$deduplicated_peptides" >> log.txt 2>&1
-log_message "Removed duplicate peptide candidates"
+log_message "Removed duplicate peptide candidates."
 
 # Retain peptides with at least one methionine
 seqkit grep -r -p 'M' -s "$deduplicated_peptides" > "$methionine_peptides"
-log_message "Retained peptides with at least one methionine residue"
+log_message "Retained peptides with at least one methionine residue."
 
 # Cut peptides up to the first methionine
 awk '/^>/ {print; next} {print substr($0, index($0, "M"))}' "$methionine_peptides" > "$cut_peptides"
-log_message "Cut peptides up to first methionine residues"
+log_message "Cut peptides up to first methionine residues."
 
 # Trim peptides to a minimum length of 10 amino acids
 seqkit seq -g -m 10 "$cut_peptides" > "$trimmed_peptides"
-log_message "Peptides trimmed to a minimum length of ten amino acid residues"
+log_message "Peptides trimmed to a minimum length of ten amino acid residues."
 
 # Remove sequences with tripeptides not present in the reference
 seqkit grep -s -v -f "$tripeptide_filter" "$trimmed_peptides" -o "$tripeptide_peptides" >> log.txt 2>&1
-log_message "Removed sequences with tripeptides not present in the reference"
+log_message "Removed sequences with tripeptides not present in the APD reference."
 
 # Calculate physicochemical properties
 headers_in_tripeptides=$(cat $tripeptide_peptides | grep "^>" | wc -l)
@@ -176,19 +206,19 @@ log_message "Calculating physicochemical properties for $headers_in_tripeptides 
 Rscript "$physicochemical_script" "$tripeptide_peptides" "$APD_properties" "$pipeline_temp" >> log.txt 2>&1
 seqkit grep -f "$pipeline_temp" "$tripeptide_peptides" -o "$physicochemical_peptides" >> log.txt 2>&1
 rm "$pipeline_temp"
-log_message "Removed sequences that do not fall within the desired physicochemical range"
+log_message "Removed sequences that do not fall within the desired physicochemical range."
 
 # Scan with double glycine triplet motif
 seqkit grep -P -s -r -p '"GGG[^G]{1,}GGG"' "$physicochemical_peptides" > "$batch_1"
 modify_fasta_headers "_batch_1" "$batch_1"
-log_message "Scanned with double glycine triplet motif"
+log_message "Scanned with double glycine triplet motif."
 
 # Identify low complexity peptides
 pfilt "$physicochemical_peptides" | seqkit grep -s -p X | seqkit seq -n > "$pipeline_temp"
 seqkit grep -f "$pipeline_temp" "$physicochemical_peptides" -o "$batch_2" >> log.txt 2>&1
 rm "$pipeline_temp"
 modify_fasta_headers "_batch_2" "$batch_2"
-log_message "Identified low complexity peptides"
+log_message "Identified low complexity peptides."
 
 # Identify binary hydrophobicity candidates
 python "$hydrophobicity_script" "$physicochemical_peptides" "$pipeline_temp"
@@ -196,34 +226,34 @@ seqkit grep -P -s -r -p '"HXXHHXXHHX"' "$pipeline_temp" | seqkit seq -n > "$pipe
 seqkit grep -f "$pipeline_temp2" "$physicochemical_peptides" -o "$batch_3" >> log.txt 2>&1
 rm "$pipeline_temp" "$pipeline_temp2"
 modify_fasta_headers "_batch_3" "$batch_3"
-log_message "Identified binary hydrophobicity candidates"
+log_message "Identified binary hydrophobicity candidates."
 
 # Identify high diversity candidates
 python "$diversity_script" "$physicochemical_peptides" "$batch_4"
 modify_fasta_headers "_batch_4" "$batch_4"
-log_message "Identified high diversity candidates"
+log_message "Identified high diversity candidates."
 
 # Scan with APD position-specific block motif
 seqkit grep -P -s -r -p '"[AGV][AG][EKR].*[ACK][ILV].*[GK].C"' "$physicochemical_peptides" > "$batch_5"
 modify_fasta_headers "_batch_5" "$batch_5"
-log_message "Scanned with APD position-specific block motif"
+log_message "Scanned with APD position-specific block motif."
 
 # Scan with APD vertical YCN motif
 seqkit grep -P -s -r -p '"YCN"' "$physicochemical_peptides" > "$batch_6"
 modify_fasta_headers "_batch_6" "$batch_6"
-log_message "Scanned with APD vertical YCN motif"
+log_message "Scanned with APD vertical YCN motif."
 
 # Scan with NCBI IPG prokaryotes motif
 seqkit grep -P -s -r -p '"[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]..*"' "$physicochemical_peptides" > "$batch_7"
 modify_fasta_headers "_batch_7" "$batch_7"
-log_message "Scanned with NCBI IPG prokaryotes motif"
+log_message "Scanned with NCBI IPG prokaryotes motif."
 
 # Combine batches
 cat $results_directory/batch* > "$batches_combined"
 
 # Retrieve PDBs
 headers_in_fasta=$(cat $batches_combined | grep "^>" | wc -l)
-log_message "Generating PDBs for $headers_in_fasta candidate AMPs"
+log_message "Generating PDBs for $headers_in_fasta candidate AMPs."
 bash "$pdb_curl" "$batches_combined" >> log.txt 2>&1
 find $results_directory/pdbs/ -type f -size -100c -print -delete | wc -l | xargs echo "[INFO] Number of PDBs lost due to connection issues:"
 
@@ -236,7 +266,7 @@ seqkit grep -f "$pipeline_temp" "$batches_combined" -o "$batches_combined_second
 modify_fasta_headers "_and_batch_9" "$batches_combined_secondary_structure"
 rm "$dssp_output"
 rm "$pipeline_temp"
-log_message "Secondary structure analysis completed [Threshold parameters: Itemset 0.1, Assoc 0.80]"
+log_message "Secondary structure analysis completed [Threshold parameters: Itemset 0.1, Assoc 0.80]."
 
 #Foldseek analysis
 foldseek easy-search "$results_directory/pdbs/" "$APD_foldseek_DB" "$foldseek_out" "$results_directory/tmp" >> log.txt 2>&1
@@ -245,7 +275,7 @@ awk '$3 >= 0.5 && $4 >= 10 {gsub(/\.pdb/, "", $1); print $1}' "$foldseek_out" > 
 seqkit grep -f "$pipeline_temp" "$batches_combined" -o "$batches_combined_tertiary_structure" >> log.txt 2>&1
 modify_fasta_headers "_and_batch_8" "$batches_combined_tertiary_structure"
 rm "$pipeline_temp"
-log_message "Tertiary structure analysis completed [Homology parameters: Length 10, Identity 0.5]"
+log_message "Tertiary structure analysis completed [Homology parameters: Length 10, Identity 0.5]."
 
 # Logistic regression with XGboost
 Rscript "$moreau_script" --file "$batches_combined" --label "candidates" --output "$moreau_results" >> log.txt 2>&1
@@ -255,7 +285,7 @@ seqkit grep -f "$pipeline_temp" "$batches_combined" -o "$batches_combined_xgboos
 modify_fasta_headers "_and_batch_10" "$batches_combined_xgboost"
 rm "$pipeline_temp"
 rm "$predictions"
-log_message "Logistic regression completed [Parameter: 0.05 for AMP classification]"
+log_message "Logistic regression completed [Parameter: 0.05 for AMP classification]."
 
 # Combine batches again and write final candidates file
 cat "$batches_combined_secondary_structure" "$batches_combined_tertiary_structure" "$batches_combined_xgboost" > "$batches_combined_2"
@@ -269,10 +299,10 @@ mv "$pipeline_temp" "$candidates"
 
 #Prepare results
 seqkit stat $results_directory/*.fasta -o "report_${genome_file%.*}" >> log.txt 2>&1
-echo "[INFO] Results written to report_${genome_file%.*}"
+echo "[INFO] Results written to report_${genome_file%.*}."
 
 # File check and finish
 check_files_exist
 end_time=$(date +%s)
 duration=$((end_time - start_time))
-echo "DONE. Time taken: ${duration} seconds"
+echo "DONE. Time taken: ${duration} seconds."
