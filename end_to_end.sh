@@ -203,7 +203,7 @@ log_message "Removed sequences with tripeptides not present in the APD reference
 # Calculate physicochemical properties
 headers_in_tripeptides=$(cat $tripeptide_peptides | grep "^>" | wc -l)
 if [ "$headers_in_tripeptides" -eq 0 ]; then
-    echo "[INFO] Exiting. Not enough peptides to carry out physicochemical analysis"
+    echo "[INFO] Exiting. Not enough peptides to carry out physicochemical analysis."
     exit 1
 fi
 log_message "Calculating physicochemical properties for $headers_in_tripeptides peptides."
@@ -257,6 +257,10 @@ cat $results_directory/batch* > "$batches_combined"
 
 # Retrieve PDBs
 headers_in_fasta=$(cat $batches_combined | grep "^>" | wc -l)
+if [ "$headers_in_fasta" -eq 0 ]; then
+    echo "[INFO] Exiting. Not enough peptides to generate PDBs."
+    exit 1
+fi
 log_message "Generating PDBs for $headers_in_fasta candidate AMPs."
 bash "$pdb_curl" "$batches_combined" >> log.txt 2>&1
 find $results_directory/pdbs/ -type f -size -100c -print -delete | wc -l | xargs echo "[INFO] Number of PDBs lost due to connection issues:"
