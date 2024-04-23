@@ -185,7 +185,7 @@ seqkit rmdup -s -i "$renamed_peptides" -o "$deduplicated_peptides" >> log.txt 2>
 log_message "Removed duplicate peptide candidates."
 
 # Retain peptides with at least one methionine
-seqkit grep -r -p 'M' -s "$deduplicated_peptides" > "$methionine_peptides"
+seqkit grep -P -p 'M' -s "$deduplicated_peptides" > "$methionine_peptides"
 log_message "Retained peptides with at least one methionine residue."
 
 # Cut peptides up to the first methionine
