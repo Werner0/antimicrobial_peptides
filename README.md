@@ -24,15 +24,15 @@ Then set up the conda environment as follow:
 # OUTPUT
 + HTML and CSV reports with summary statistics of batches and intermediary files:
   +  Batch 1: Candidates containing the `GGG[^G]{1,}GGG` motif
-  +  Batch 2: Low complexity candidates
-  +  Batch 3: Candidates containing the `HXXHHXXHHX` motif (after binary hydrophobicity conversion)
-  +  Batch 4: High diversity candidates
+  +  Batch 2: Low complexity candidates including those with coiled-coil, transmembrane and WD repeat signatures
+  +  Batch 3: Candidates containing the `HXXHHXXHHX` motif after binary hydrophobicity conversion
+  +  Batch 4: High diversity candidates containing at least one of each of the twenty standard amino acid residues
   +  Batch 5: Candidates containing the `[AGV][AG][EKR].*[ACK][ILV].*[GK].C` motif
   +  Batch 6: Candidates containing the `YCN` motif
   +  Batch 7: Candidates containing the `[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]..*` motif
-  +  Batch 8: Candidates with tertiary peptide structure homology to APD reference set
-  +  Batch 9: Candidates with a similar itemset frequency as the APD reference set in terms of secondary structure
-  +  Batch 10: Candidates derived from binary logistic regression using Moreau-Broto autocorrelation descriptors
+  +  Batch 8: Candidates with tertiary peptide structure homology to validated antimicrobial peptides in the APD reference set
+  +  Batch 9: Candidates with a similar itemset frequency as the APD reference set in terms of secondary structures including alpha helices (3-10 and pi), beta sheets (bridged and extended), hydrogen bond turns and loops
+  +  Batch 10: Candidates derived from binary logistic regression using Moreau-Broto autocorrelation descriptors (normalized average hydrophobicity, average flexibility, polarizability, free energy in water, accessible surface area (as tripeptides), residue volume, steric hindrance, and relative mutability)
   +  File 1: Extracted ORFs
   +  File 2: ORFs translated to peptides
   +  File 3: Peptides with renamed headers
