@@ -307,7 +307,9 @@ mv "$pipeline_temp" "$candidates"
 
 #Prepare results
 seqkit stat $results_directory/*.fasta -o "report_${genome_file%.*}" >> log.txt 2>&1
-echo "[INFO] Results written to report_${genome_file%.*}."
+bash source_files/generate_reports.sh "report_${genome_file%.*}"
+rm "report_${genome_file%.*}"
+log_message "HTML and CSV reports generated."
 
 # File check and finish
 check_files_exist
