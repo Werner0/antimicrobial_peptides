@@ -18,8 +18,8 @@ Then set up the conda environment as follow:
 + `bash configure_pfilt.sh`  
 
 # USAGE
+The pipeline is designed for bacterial genome analysis but will take any nucleotide sequences as input. It will run using a sample nucleotide set consisting of two concatenated genomes (_Escherichia coli_ and _Sorangium cellulosum_) if no input is provided. More example genomes are available in ./source_files/genomes/
 + `bash end_to_end.sh [nucleotides.fasta|.fna]`
-+ Example genomes are available in: `./source_files/genomes/`
 
 # OUTPUT
 + HTML and CSV reports with summary statistics of batches and intermediary files:
@@ -38,7 +38,7 @@ Then set up the conda environment as follow:
   +  File 3: Peptides with renamed headers.
   +  File 4: Deduplicated peptides.
   +  File 5: Peptides with at least one methionine residue.
-  +  File 6: Peptides right-trimmed up to first methionine.
+  +  File 6: Peptides left-trimmed up to first methionine.
   +  File 7: Peptides with a minimum length of 10 residues.
   +  File 8: Peptides filtered for tripeptides that are not seen in the APD reference set.
   +  File 9: Peptides that meet the 95th percentile physicochemical distribution range of the APD reference set in terms of their counts of individual amino acid residue membership to the following classes: tiny, small, aliphatic, aromatic, non-polar, polar, charged, basic and acidic. 
