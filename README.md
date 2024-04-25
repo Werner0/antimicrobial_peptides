@@ -22,20 +22,31 @@ Then set up the conda environment as follow:
 + Example genomes are available in: `./source_files/genomes/`
 
 # OUTPUT
-+ Summary of FASTA batches and intermediary files: ./report_input_filename
-  +  Batch 1: `GGG[^G]{1,}GGG` motif
++ HTML and CSV reports with summary statistics of batches and intermediary files:
+  +  Batch 1: Candidates containing the `GGG[^G]{1,}GGG` motif
   +  Batch 2: Low complexity candidates
-  +  Batch 3: `HXXHHXXHHX` motif (after binary hydrophobicity conversion)
+  +  Batch 3: Candidates containing the `HXXHHXXHHX` motif (after binary hydrophobicity conversion)
   +  Batch 4: High diversity candidates
-  +  Batch 5: `[AGV][AG][EKR].*[ACK][ILV].*[GK].C` motif
-  +  Batch 6: `YCN` motif
-  +  Batch 7: `[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]..*` motif
-  +  Batch 8: Tertiary peptide structure homologs
-  +  Batch 9: Secondary peptide structure homologs
-  +  Batch 10: Binary logistic regression candidates
-+ Secondary structure analysis: ./output/secondary_structure_analysis.csv  
-+ Tertiary structure analysis: ./output/tertiary_structure_analysis.txt  
-+ Priority AMP candidates (empty file if none were detected): ./output/final.fasta
+  +  Batch 5: Candidates containing the `[AGV][AG][EKR].*[ACK][ILV].*[GK].C` motif
+  +  Batch 6: Candidates containing the `YCN` motif
+  +  Batch 7: Candidates containing the `[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]..*` motif
+  +  Batch 8: Candidates with tertiary peptide structure homology to APD reference set
+  +  Batch 9: Candidates with a similar itemset frequency as the APD reference set in terms of secondary structure
+  +  Batch 10: Candidates derived from binary logistic regression using Moreau-Broto autocorrelation descriptors
+  +  File 1: Extracted ORFs
+  +  File 2: ORFs translated to peptides
+  +  File 3: Peptides with renamed headers
+  +  File 4: Deduplicated peptides
+  +  File 5: Peptides with at least one methionine residue
+  +  File 6: Peptides right-trimmed up to first methionine
+  +  File 7: Peptides with a minimum length of 10 residues
+  +  File 8: Peptides filtered for tripeptides that are not seen in the APD reference set
+  +  File 9: Peptides that meet the 95th percentile physicochemical distribution range of the APD reference set
+  +  Combo Batch 1 to 7: Merge of batches 1 to 7 ("primary candidate set")
+  +  Combo Batch 8 to 10: Merge of batches 8 to 10 ("secondary candidate set")
+  +  Final: Priority AMP candidates ("tertiary candidate set")
++ Secondary structure analysis: ./output/secondary_structure_analysis.csv (for Batch 9)
++ Tertiary structure analysis: ./output/tertiary_structure_analysis.txt (for Batch 8)
 
 # LOGGING
 + Log written to ./log.txt  
