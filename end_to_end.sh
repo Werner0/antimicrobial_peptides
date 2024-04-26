@@ -248,7 +248,7 @@ modify_fasta_headers "_batch_6" "$batch_6"
 log_message "Scanned with APD vertical YCN motif."
 
 # Scan with NCBI IPG prokaryotes motif
-seqkit grep -P -s -r -p '"[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]..*"' "$physicochemical_peptides" > "$batch_7"
+seqkit grep -P -s -r -p '"[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]"' "$physicochemical_peptides" > "$batch_7"
 modify_fasta_headers "_batch_7" "$batch_7"
 log_message "Scanned with NCBI IPG prokaryotes motif."
 
