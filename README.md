@@ -8,28 +8,39 @@ A software pipeline that takes as input a multi-fasta file containing any type o
 
 # INSTALLATION
 The mamba package manager is needed to resolve installation of `libboost=1.73.0=h28710b8_12` for `dssp`:  
-+ `conda install conda-forge::mamba`  
+
+```
+conda install conda-forge::mamba
+```
 
 Then set up the conda environment as follow:  
-+ `git clone https://github.com/Werner0/antimicrobial_peptides.git`
-+ `cd ./antimicrobial_peptides/setup`  
-+ `mamba env create -f requirements.yaml`
-+ `conda activate candidates`
-+ `bash configure_pfilt.sh`  
+
+```
+git clone https://github.com/Werner0/antimicrobial_peptides.git
+cd ./antimicrobial_peptides/setup
+mamba env create -f requirements.yaml
+conda activate candidates
+bash configure_pfilt.sh
+```
 
 # USAGE
-The pipeline is designed for bacterial genome analysis but will take any nucleotide sequences as input. It will run using a sample nucleotide set consisting of two concatenated genomes (_Escherichia coli_ and _Sorangium cellulosum_) if no input is provided. More example genomes are available in ./source_files/genomes/
-+ `bash end_to_end.sh [nucleotides.fasta|.fna]`
+The pipeline is designed for bacterial genome analysis but will take any nucleotide sequences as input. It will run using a sample nucleotide set consisting of two concatenated genomes (_Escherichia coli_ and _Sorangium cellulosum_) if no input is provided.
+
+```
+bash end_to_end.sh [nucleotides.fasta|.fna]
+```
+
+More example genomes are available in ./source_files/genomes/
 
 # OUTPUT
 + HTML and CSV reports with summary statistics of batches and intermediary files:
   +  Batch 1: Candidates containing the `GGG[^G]{1,}GGG` motif. This motif is disproportionately present in the [APD reference set](https://aps.unmc.edu/).
   +  Batch 2: Low complexity candidates including those with coiled-coil, transmembrane and WD repeat signatures.
-  +  Batch 3: Candidates containing the `HXXHHXXHHX` motif after binary hydrophobicity conversion, where the amino acid residues A, I, L, M, F, W & V are represented by H, the amino acid residues S, T, C, N, Q & Y are represented by P, and all others by X. This motif was obtained by k-peptide peak frequency analysis.
+  +  Batch 3: Candidates containing the `HXXHHXXHHX` motif after binary hydrophobicity conversion, where the amino acid residues A, I, L, M, F, W & V are represented by H, the amino acid residues S, T, C, N, Q & Y are represented by P, and all others by X. This motif is the most frequent 10-mer at the k-peptide frequency peak of the APD reference set.
   +  Batch 4: High diversity candidates containing at least one of each of the twenty standard amino acid residues.
-  +  Batch 5: Candidates containing the `[AGV][AG][EKR].*[ACK][ILV].*[GK].C` motif. This motif was obtained by MSA analysis of within peptide frequencies of the APD reference set.
-  +  Batch 6: Candidates containing the `YCN` motif. This motif was obtained by MSA analysis of across peptide frequencies of the APD reference set.
-  +  Batch 7: Candidates containing the `[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]..*` motif. This motif was obtained by MSA analysis of within peptide frequencies of an NCBI IPG prokarytic AMP set.
+  +  Batch 5: Candidates containing the `[AGV][AG][EKR].*[ACK][ILV].*[GK].C` motif. This motif was obtained by MSA analysis of within peptide compositional frequencies of the APD reference set.
+  +  Batch 6: Candidates containing the `YCN` motif. This motif was obtained by MSA analysis of across peptide compositional frequencies of the APD reference set.
+  +  Batch 7: Candidates containing the `[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]..*` motif. This motif was obtained by MSA analysis of within peptide compositional frequencies of an NCBI IPG prokaryotic AMP set.
   +  Batch 8: Candidates with tertiary peptide structure homology to validated antimicrobial peptides in the APD reference set.
   +  Batch 9: Candidates with a similar itemset frequency as the APD reference set in terms of secondary structures including alpha helices (3-10 and pi), beta sheets (bridged and extended), hydrogen bond turns and loops.
   +  Batch 10: Candidates derived from binary logistic regression using [Moreau-Broto autocorrelation descriptors](https://github.com/nanxstats/protr/blob/master/R/desc-04-MoreauBroto.R) (normalized average hydrophobicity, average flexibility, polarizability, free energy in water, accessible surface area (as tripeptides), residue volume, steric hindrance, and relative mutability).
