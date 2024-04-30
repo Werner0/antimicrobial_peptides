@@ -6,6 +6,10 @@ A software pipeline that takes as input a multi-fasta file containing any type o
 # PIPELINE FLOW DIAGRAM
 ![Flow_diagram](source_files/flow_diagram.gif)
 
+# EVALUATION
+![Evaluation](source_files/evaluation.gif)
+The pipeline was evaluated using [AmpGram](https://doi.org/10.3390/ijms21124310). Controls showed that the pipeline has a different AMP candidate selection strategy than AmpGram. Evaluation of the pipeline on real and fake datasets showed that candidates from 27 real genomes are more likely to be AMPs than candidates from 27 fake genomes, and that ORFs from real genomes are more likely to be AMPs than ORFs from fake genomes.
+
 # INSTALLATION
 The mamba package manager is needed to resolve installation of an older version of libboost for dssp:  
 
