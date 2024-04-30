@@ -1,5 +1,5 @@
 # DESCRIPTION
-A software pipeline that takes as input a multi-fasta file containing any type of nucleotide sequences, extracts open reading frames (ORFs) from the nucleotide sequences, translates the ORFs to peptides, and through multiple filtering steps derives candidate antimicrobial peptides. A single bacterial genome can be processed in less than five minutes but larger sequence sets can lead to memory and processor capacities being exceeded (see [time complexity analysis](#pipeline-time-complexity-analysis)).
+A software pipeline that takes as input a multi-fasta file containing any type of nucleotide sequences, extracts open reading frames (ORFs) from the nucleotide sequences, translates the ORFs to peptides, and through multiple filtering steps derives candidate antimicrobial peptides (AMPs). A single bacterial genome can be processed in less than five minutes but larger sequence sets can lead to memory and processor capacities being exceeded (see [time complexity analysis](#pipeline-time-complexity-analysis)).
 
 :zap: _"This wee script is a canny tool for rummaging through heaps of genetic code to root out what might just be the next big thing in fighting germs. Ye pop in a file crammed with DNA sequences and it gets to work sifting through to find the bits that could turn into proteins – those are your open reading frames, or ORFs. It then translates these ORFs into strings of amino acids to see if any might be shaped like the sort of peptides that have a knack for knocking out baddies like bacteria."_
 
@@ -10,7 +10,7 @@ A software pipeline that takes as input a multi-fasta file containing any type o
 ![Evaluation](source_files/evaluation.gif)
 The pipeline was evaluated using [AmpGram](https://doi.org/10.3390/ijms21124310). Controls showed that the pipeline has a different AMP candidate selection strategy than AmpGram. Evaluation of the pipeline on real and fake datasets showed that candidates from 27 real genomes are more likely to be AMPs than candidates from 27 fake genomes, and that ORFs from real genomes are more likely to be AMPs than ORFs from fake genomes.
 
-# INSTALLATION
+# INSTALLATION (see [demo](#demo))
 The mamba package manager is needed to resolve installation of an older version of libboost for dssp:  
 
 ```
@@ -27,7 +27,7 @@ conda activate candidates
 bash configure_pfilt.sh
 ```
 
-# USAGE
+# USAGE (see [demo](#demo))
 The pipeline is designed for bacterial genome analysis but will take any nucleotide sequences as input. It will run using a sample nucleotide set consisting of two concatenated genomes (_Escherichia coli_ and _Sorangium cellulosum_) if no input is provided.
 
 ```
