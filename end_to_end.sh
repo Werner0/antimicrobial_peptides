@@ -189,7 +189,7 @@ seqkit grep -P -p 'M' -s "$deduplicated_peptides" > "$methionine_peptides"
 log_message "Retained peptides with at least one methionine residue."
 
 # Cut peptides up to the first methionine
-awk '/^>/ {print; next} {print substr($0, index($0, "M"))}' "$methionine_peptides" > "$cut_peptides"
+awk '{ printf "%s", $0 } END { print "" }' "$methionine_peptides" | awk '{gsub(/>/, "\n>")}1' | awk '{gsub(/B/, "B\n")}1' | awk 'NR > 1' | awk '/^>/ {print; next} {print substr($0, index($0, "M"))}' > "$cut_peptides"
 log_message "Cut peptides up to first methionine residues."
 
 # Trim peptides to a minimum length of 10 amino acids
