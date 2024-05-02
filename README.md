@@ -5,6 +5,7 @@ A software pipeline that takes as input a multi-fasta file containing any type o
 
 # PIPELINE FLOW DIAGRAM
 ![Flow_diagram](source_files/flow_diagram.gif)
+Candidate AMPs are called using ten distinct methods. The batches that the first seven methods lead to are collectively referred to as the primary candidate set. The primary candidates from batch one through seven are then filtered using three more methods in a second round of candidate selection using only the primary candidate set as input. Candidates that pass this second round are collectively referred to as the secondary candidate set. Candidates that appear at least twice in the secondary candidate set are referred to as the tertiary candidate set. Members of the tertiary candidate set are guaranteed to have been flagged as candidate AMPs by at least three methods of the pipeline. Candidates that are called by multiple methods are intuitively more likely to be AMPs and as such are considered priority candidates for wet lab validation, but the full set of called candidates always remains the primary candidate set.
 
 # EVALUATION
 ![Evaluation](source_files/evaluation.gif)
