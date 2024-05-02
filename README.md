@@ -4,11 +4,11 @@ A software pipeline that takes as input a multi-fasta file containing any type o
 :zap: _"This wee script is a canny tool for rummaging through heaps of genetic code to root out what might just be the next big thing in fighting germs. Ye pop in a file crammed with DNA sequences and it gets to work sifting through to find the bits that could turn into proteins – those are your open reading frames, or ORFs. It then translates these ORFs into strings of amino acids to see if any might be shaped like the sort of peptides that have a knack for knocking out baddies like bacteria."_
 
 # PIPELINE FLOW DIAGRAM
-![Flow_diagram](source_files/flow_diagram.gif)
+![Flow_diagram](source_files/images/flow_diagram.gif)
 Candidate AMPs are called using ten distinct methods. The batches that the first seven methods lead to are collectively referred to as the primary candidate set. The primary candidates from batch one through seven are then filtered using three more methods in a second round of candidate selection using only the primary candidate set as input. Candidates that pass this second round are collectively referred to as the secondary candidate set. Candidates that appear at least twice in the secondary candidate set are referred to as the tertiary candidate set. Members of the tertiary candidate set are guaranteed to have been flagged as candidate AMPs by at least three methods of the pipeline. Candidates that are called by multiple methods are intuitively more likely to be AMPs and as such are considered priority candidates for wet lab validation, but the full set of called candidates always remains the primary candidate set.
 
 # EVALUATION
-![Evaluation](source_files/evaluation.gif)
+![Evaluation](source_files/images/evaluation.gif)
 The pipeline was evaluated using [AmpGram](https://doi.org/10.3390/ijms21124310). Controls showed that the pipeline has a different AMP candidate selection strategy than AmpGram. Evaluation of the pipeline on real and fake datasets showed that candidates from 27 real genomes are more likely to be AMPs than candidates from 27 fake genomes, and that ORFs from real genomes are more likely to be AMPs than ORFs from fake genomes.
 
 # INSTALLATION (see [demo](#demo))
@@ -69,7 +69,7 @@ More example genomes are available in ./source_files/genomes/
 + For more verbose logging, uncomment `#set -x` on line 3 in ./end_to_end.sh
 
 # DEMO
-![DEMO](source_files/demo.gif)
+![DEMO](source_files/images/demo.gif)
 
 # PIPELINE TIME COMPLEXITY ANALYSIS
-![BigO](source_files/time_complexity.gif)
+![BigO](source_files/images/time_complexity.gif)
