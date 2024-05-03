@@ -71,7 +71,7 @@ More example genomes are available in ./source_files/genomes/
   +  Batch 2: Low complexity candidates including those with coiled-coil, transmembrane and WD repeat signatures.
   +  Batch 3: Candidates containing the _HXXHHXXHHX_ motif after binary hydrophobicity conversion, where the amino acid residues A, I, L, M, F, W & V are represented by H, the amino acid residues S, T, C, N, Q & Y are represented by P, and all others by X. This motif is the most frequent 10-mer at the k-peptide frequency peak of the APD reference set.
   +  Batch 4: High diversity candidates containing at least one of each of the twenty standard amino acid residues.
-  +  Batch 5: Candidates containing the _[AGV][AG][EKR].*[ACK][ILV].*[GK].C_ motif. This motif was obtained by MSA analysis of within peptide compositional frequencies of the APD reference set.
+  +  Batch 5: Candidates containing the _[AGV][AG][EKR].*[ACK][ILV].*[GK].C_ motif. This motif was obtained by [MSA analysis](source_files/dead_code/msa_count.py) of within peptide compositional frequencies of the APD reference set.
   +  Batch 6: Candidates containing the YCN motif. This motif was obtained by MSA analysis of across peptide compositional frequencies of the APD reference set.
   +  Batch 7: Candidates containing the _[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]_ motif. This motif was obtained by MSA analysis of within peptide compositional frequencies of an NCBI IPG prokaryotic AMP set.
   +  Batch 8: Candidates with tertiary peptide structure homology to validated antimicrobial peptides in the APD reference set.
