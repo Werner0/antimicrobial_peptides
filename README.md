@@ -9,7 +9,35 @@ Candidate AMPs are called using ten distinct methods. The batches that the first
 
 # EVALUATION
 ![Evaluation](source_files/images/evaluation.gif)
-The pipeline was evaluated using [AmpGram](https://doi.org/10.3390/ijms21124310). Controls showed that the pipeline has a different AMP candidate selection strategy than AmpGram. Evaluation of the pipeline on real and fake datasets showed that candidates from 27 real genomes are more likely to be AMPs than candidates from 27 fake genomes, and that ORFs from real genomes are more likely to be AMPs than ORFs from fake genomes.
+The pipeline was evaluated using [AmpGram](https://doi.org/10.3390/ijms21124310). Controls showed that the pipeline has a different AMP candidate selection strategy than AmpGram. Evaluation of the pipeline on real and fake datasets showed that candidates from a concatenation of the following real genomes are more likely to be AMPs than candidates from fake genomes that mimic the real genomes in number of contigs and random nucleotides per contig. ORFs from real genomes are also more likely to encode AMPs than ORFs from fake genomes.
+
+_Actinoplanes philippinensis_, 
+_Amycolatopsis fastidiosa_, 
+_Bacillus subtilis_, 
+_Companilactobacillus crustorum_, 
+_Enterococcus faecalis_, 
+_Enterococcus faecium_, 
+_Escherichia coli K12_, 
+_Escherichia coli O157H7_, 
+_Klebsiella pneumoniae_, 
+_Lacticaseibacillus paracasei_, 
+_Lactobacillus curvatus_, 
+_Lactobacillus helveticus_, 
+_Lactococcus lactis_, 
+_Latilactobacillus sakei_, 
+_Ligilactobacillus salivarius_, 
+_Loigolactobacillus coryniformis_, 
+_Microbispora corallina_, 
+_Pediococcus acidilactici_, 
+_Pediococcus pentosaceus_, 
+_Rhodococcus jostii_, 
+_Staphylococcus epidermidis_, 
+_Staphylococcus gallinarum_, 
+_Staphylococcus simulans_, 
+_Staphylococcus warneri_, 
+_Streptococcus bovis_, 
+_Streptococcus mutans_, 
+_Streptomyces bottropensis_
 
 # INSTALLATION (see [demo](#demo))
 The mamba package manager is needed to resolve installation of an older version of libboost for dssp:  
