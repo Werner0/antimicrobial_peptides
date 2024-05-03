@@ -9,7 +9,7 @@ Candidate AMPs are called using ten distinct methods. The batches that the first
 
 # EVALUATION
 ![Evaluation](source_files/images/evaluation.gif)
-The pipeline was evaluated using [AmpGram](https://doi.org/10.3390/ijms21124310). Controls showed that the pipeline has a different AMP candidate selection strategy than AmpGram. Evaluation of the pipeline on real and fake datasets showed that candidates from a concatenation of the following real genomes are more likely to be AMPs than candidates from fake genomes that mimic the real genomes in number of contigs and random nucleotides per contig. ORFs from real genomes are also more likely to encode AMPs than ORFs from fake genomes.
+The pipeline was evaluated using [AmpGram](https://doi.org/10.3390/ijms21124310). Controls showed that the pipeline has a different AMP candidate selection strategy than AmpGram. Evaluation of the pipeline on real and fake datasets showed that candidates from a concatenation of the following real genomes are more likely to be AMPs than candidates from fake genomes that [mimic](source_files/dead_code/mimic.sh) the real genomes in number of contigs and random nucleotides per contig. ORFs from real genomes are also more likely to encode AMPs than ORFs from fake genomes.
 
 _Actinoplanes philippinensis_, 
 _Amycolatopsis fastidiosa_, 
