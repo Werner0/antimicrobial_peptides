@@ -71,9 +71,9 @@ More example genomes are available in ./source_files/genomes/
   +  Batch 2: Low complexity candidates including those with coiled-coil, transmembrane and WD repeat signatures.
   +  Batch 3: Candidates containing the _HXXHHXXHHX_ motif after binary hydrophobicity conversion, where the amino acid residues A, I, L, M, F, W & V are represented by H, the amino acid residues S, T, C, N, Q & Y are represented by P, and all others by X. This motif is the most frequent 10-mer at the k-peptide frequency peak of the APD reference set.
   +  Batch 4: High diversity candidates containing at least one of each of the twenty standard amino acid residues.
-  +  Batch 5: Candidates containing the _[AGV][AG][EKR].*[ACK][ILV].*[GK].C_ motif. This motif was obtained by [MSA analysis](source_files/dead_code/msa_count.py) of within peptide compositional frequencies of the APD reference set.
+  +  Batch 5: Candidates containing the _[AGV][AG][EKR].&ast;[ACK][ILV].&ast;[GK].C_ motif. This motif was obtained by [MSA analysis](source_files/dead_code/msa_count.py) of within peptide compositional frequencies of the APD reference set.
   +  Batch 6: Candidates containing the YCN motif. This motif was obtained by MSA analysis of across peptide compositional frequencies of the APD reference set.
-  +  Batch 7: Candidates containing the _[M]..*[G].[G].[G]..*[R]..*[G]..*[P]..*[G]..*[RK]..*[EQ]_ motif. This motif was obtained by MSA analysis of within peptide compositional frequencies of an NCBI IPG prokaryotic AMP set.
+  +  Batch 7: Candidates containing the _[M]..&ast;[G].[G].[G]..&ast;[R]..&ast;[G]..&ast;[P]..&ast;[G]..&ast;[RK]..&ast;[EQ]_ motif. This motif was obtained by MSA analysis of within peptide compositional frequencies of an NCBI IPG prokaryotic AMP set.
   +  Batch 8: Candidates with tertiary peptide structure homology to validated antimicrobial peptides in the APD reference set.
   +  Batch 9: Candidates with a similar itemset frequency as the APD reference set in terms of secondary structures including alpha helices (3-10 and pi), beta sheets (bridged and extended), hydrogen bond turns and loops.
   +  Batch 10: Candidates derived from binary logistic regression using [Moreau-Broto autocorrelation descriptors](https://github.com/nanxstats/protr/blob/master/R/desc-04-MoreauBroto.R) (normalized average hydrophobicity, average flexibility, polarizability, free energy in water, accessible surface area (as tripeptides), residue volume, steric hindrance, and relative mutability).
@@ -101,3 +101,6 @@ More example genomes are available in ./source_files/genomes/
 
 # PIPELINE TIME COMPLEXITY ANALYSIS
 ![BigO](source_files/images/time_complexity.gif)
+
+# CITATION
+Veldsman W.P., Zhang Q., Zhou Q., Zhang L. (2024) The antimicrobial peptides pipeline: a bacteria-centric AMP predictor, _BioRXiv_, __595993__ DOI: https://doi.org/10.1101/2024.05.26.595993
