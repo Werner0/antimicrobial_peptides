@@ -178,7 +178,6 @@ else
 fi
 
 # Rename peptide fasta headers
-#awk '/^>/{printf(">seq_A%08dB\n", ++i); next} {print}' "$peptides" > "$renamed_peptides"
 fasta_doctor_x86_64 "$peptides" --rename --unwrap
 mv output.fasta "$renamed_peptides"
 log_message "Renamed peptide fasta headers."
@@ -275,7 +274,7 @@ python "$assoc_script" "$APD_dssp" "$candidate_dssp" "$dssp_output"
 grep -o 'A[0-9]\+B_batch_[0-9]\+' "$dssp_output" > "$pipeline_temp" || touch "$pipeline_temp"
 seqkit grep -f "$pipeline_temp" "$batches_combined" -o "$batches_combined_secondary_structure" >> log.txt 2>&1
 modify_fasta_headers "_and_batch_9" "$batches_combined_secondary_structure"
-#rm "$dssp_output"
+rm "$dssp_output"
 rm "$pipeline_temp"
 log_message "Secondary structure analysis completed [Threshold parameters: Itemset 0.1, Assoc 0.80]."
 
