@@ -53,7 +53,7 @@ git clone https://github.com/Werner0/antimicrobial_peptides.git
 cd ./antimicrobial_peptides/setup
 mamba env create -f requirements.yaml
 conda activate candidates
-bash configure_pfilt.sh
+bash configure.sh
 ```
 
 # USAGE (see [demo](#demo))
