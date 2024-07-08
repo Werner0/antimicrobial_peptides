@@ -27,12 +27,12 @@ stat $CONDA_PREFIX/bin/pfilt > /dev/null 2>&1
 if [ $? -eq 0 ]; then
 	    echo "Pfilt successfully placed in conda environment path"
     else
-	        echo "Installation failed"
+	        echo "Installation of pfilt failed"
 fi
 stat $CONDA_PREFIX/bin/fasta_doctor_x86_64 > /dev/null 2>&1
 # Check the exit status of the stat command
 if [ $? -eq 0 ]; then
 	            echo "fasta_doctor successfully placed in conda environment path"
 		        else
-				                echo "Installation failed"
+				                echo "Installation of fasta doctor failed"
 fi
