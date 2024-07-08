@@ -40,6 +40,8 @@ _Streptococcus mutans_ and
 _Streptomyces bottropensis_.
 
 # INSTALLATION (see [demo](#demo))
+Operating system requirement: linux with x86 architecture.
+
 The mamba package manager is needed to resolve installation of an older version of libboost for dssp:  
 
 ```
@@ -63,7 +65,7 @@ The pipeline is designed for bacterial genome analysis but will take any nucleot
 bash end_to_end.sh [nucleotides.fasta|.fna]
 ```
 
-More example genomes are available in ./source_files/genomes/
+Example genomes are available in ./source_files/genomes/
 
 # OUTPUT
 + HTML and CSV reports with summary statistics of batches and intermediary files:
