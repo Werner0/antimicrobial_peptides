@@ -17,7 +17,7 @@ check_tool() {
         if [ "$1" = "pfilt" ]; then
             echo "Configuring pfilt."
 	    cd setup
-	    bash configure_pfilt.sh
+	    bash configure.sh
 	    cd ..
         else
             echo "Error: $1 could not be found. Please install $1 to continue or activate the candidates conda environment."
@@ -33,6 +33,7 @@ check_tool seqkit
 check_tool Rscript
 check_tool python
 check_tool pfilt
+check_tool fasta_doctor_x86_64
 
 # Check if a genome file is provided as an input
 if [ -z "$1" ]; then
@@ -177,7 +178,9 @@ else
 fi
 
 # Rename peptide fasta headers
-awk '/^>/{printf(">seq_A%08dB\n", ++i); next} {print}' "$peptides" > "$renamed_peptides"
+#awk '/^>/{printf(">seq_A%08dB\n", ++i); next} {print}' "$peptides" > "$renamed_peptides"
+fasta_doctor_x86_64 "$peptides" --rename --unwrap
+mv output.fasta "$renamed_peptides"
 log_message "Renamed peptide fasta headers."
 
 # Deduplicate peptide sequences
@@ -269,10 +272,10 @@ find $results_directory/pdbs/ -type f -size -100c -print -delete | wc -l | xargs
 for f in $results_directory/pdbs/*.pdb; do mkdssp "$f" "${f%.pdb}.dssp"; done
 python "$dssp_script" "$results_directory/pdbs/" "$results_directory/secondary_structure_analysis.csv"
 python "$assoc_script" "$APD_dssp" "$candidate_dssp" "$dssp_output"
-grep -o 'seq_A[0-9]\{8\}B_batch_[0-9]\+' "$dssp_output" > "$pipeline_temp" || touch "$pipeline_temp"
+grep -o 'A[0-9]\+B_batch_[0-9]\+' "$dssp_output" > "$pipeline_temp" || touch "$pipeline_temp"
 seqkit grep -f "$pipeline_temp" "$batches_combined" -o "$batches_combined_secondary_structure" >> log.txt 2>&1
 modify_fasta_headers "_and_batch_9" "$batches_combined_secondary_structure"
-rm "$dssp_output"
+#rm "$dssp_output"
 rm "$pipeline_temp"
 log_message "Secondary structure analysis completed [Threshold parameters: Itemset 0.1, Assoc 0.80]."
 
