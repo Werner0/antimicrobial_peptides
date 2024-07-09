@@ -191,6 +191,8 @@ seqkit grep -P -p 'M' -s "$deduplicated_peptides" > "$methionine_peptides"
 log_message "Retained peptides with at least one methionine residue."
 
 # Cut peptides up to the first methionine
+fasta_doctor_x86_64 "$methionine_peptides" --unwrap
+mv output.fasta "$methionine_peptides"
 awk '/^>/ {print; next} {print substr($0, index($0, "M"))}' "$methionine_peptides" > "$cut_peptides"
 log_message "Cut peptides up to first methionine residues."
 
